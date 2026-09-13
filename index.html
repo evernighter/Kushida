@@ -17,7 +17,7 @@
             --sakura-pink: #FFB7C5;
             --deep-pink: #FF8DA1;
             --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.75); /* 增加透明度讓立繪透出來 */
+            --glass: rgba(255, 255, 255, 0.75);
         }
 
         body, html {
@@ -50,7 +50,7 @@
         header {
             background: linear-gradient(135deg, rgba(255,183,197,0.9), rgba(255,141,161,0.9));
             color: white;
-            padding: 55px 20px 15px;
+            padding: 55px 20px 18px;
             text-align: center;
             border-bottom: 3px solid var(--gold);
             backdrop-filter: blur(10px);
@@ -60,40 +60,53 @@
             z-index: 100;
         }
 
-        /* 分頁背景設定 - 讓立繪完整呈現在側邊 */
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        header .subtitle {
+            margin: 8px 0 0;
+            font-size: 11px;
+            opacity: 0.95;
+            letter-spacing: 1px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        /* 分頁背景設定 */
         .tab-content { 
             display: none; 
             min-height: 100vh;
             padding: 20px; 
             box-sizing: border-box;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* 固定立繪 */
-            background-position: right bottom; /* 人物靠右下 */
-            background-size: contain; /* 確保立繪完整不裁切 */
+            background-attachment: fixed;
+            background-position: right bottom;
+            background-size: contain;
             animation: magicFade 0.5s ease;
             padding-bottom: 150px;
         }
 
         .tab-content.active { display: block; }
 
-        /* 指定背景立繪 */
         #day1 { background-image: url('icons/day1.png'); }
         #day2 { background-image: url('icons/day2.png'); }
         #day3 { background-image: url('icons/day3.png'); }
         #save { background-image: url('icons/save.png'); }
 
-        @keyframes magicFade {
-            from { opacity: 0; } to { opacity: 1; }
-        }
+        @keyframes magicFade { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 內容卡片 - 調整寬度避開立繪，並增加磨砂感 */
+        /* 內容卡片 */
         .card {
             background: var(--glass);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 20px;
             padding: 18px;
             margin-bottom: 15px;
-            width: 85%; /* 讓出一點右側空間給立繪 */
+            width: 85%;
             box-shadow: 0 8px 32px rgba(255, 141, 161, 0.15);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
@@ -135,7 +148,8 @@
 <div id="sakura-container"></div>
 
 <header>
-    <h1 style="margin:0; font-size: 22px; letter-spacing: 2px;">✨ 封印解除 ✨</h1>
+    <h1>✨ 封印解除 ✨</h1>
+    <div class="subtitle">隱藏了黑暗力量的鑰匙啊~在我面前顯示真正的力量~</div>
 </header>
 
 <div id="day1" class="tab-content active">
