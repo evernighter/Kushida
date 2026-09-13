@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>封印解除</title>
+    
+    <!-- iOS PWA 必要設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="封印解除">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
 
+    <style>
+        :root {
+            --sakura-pink: #FFB7C5;
+            --light-pink: #FFF0F5;
+            --gold: #D4AF37;
+            --magic-purple: #E6E6FA;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--light-pink);
+            color: #555;
+            padding-bottom: 70px;
+        }
+
+        header {
+            background-color: var(--sakura-pink);
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-content { display: none; padding: 20px; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 行程卡片設計 */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--sakura-pink);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .card::after {
+            content: '🌸';
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            opacity: 0.3;
+        }
+
+        /* 底部導航欄 */
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 calc(env(safe-area-inset-bottom) + 10px);
+            border-top: 1px solid var(--sakura-pink);
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        nav button.active {
+            color: var(--sakura-pink);
+            font-weight: bold;
+        }
+
+        nav button .icon {
+            font-size: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>✨ 封印解除 ✨</h1>
+    <p>庫洛的旅遊魔法記錄</p>
+</header>
+
+<!-- 分頁內容 -->
+<div id="day1" class="tab-content active">
+    <h3>第一天：開始的旅程</h3>
+    <div class="card">10:00 - 抵達目的地</div>
+    <div class="card">12:30 - 魔法午餐</div>
+</div>
+
+<div id="day2" class="tab-content">
+    <h3>第二天：冒險延續</h3>
+    <div class="card">09:00 - 晨之冒險</div>
+</div>
+
+<div id="day3" class="tab-content">
+    <h3>第三天：最終封印</h3>
+    <div class="card">18:00 - 歸途</div>
+</div>
+
+<div id="save" class="tab-content">
+    <h3>⭐ 景點儲存庫</h3>
+    <p>在這裡收藏你想去的魔法景點...</p>
+</div>
+
+<!-- 導航列 -->
+<nav>
+    <button class="active" onclick="showTab('day1', this)"><span class="icon">❶</span>Day 1</button>
+    <button onclick="showTab('day2', this)"><span class="icon">❷</span>Day 2</button>
+    <button onclick="showTab('day3', this)"><span class="icon">❸</span>Day 3</button>
+    <button onclick="showTab('save', this)"><span class="icon">🎀</span>儲存</button>
+</nav>
+
+<script>
+    function showTab(tabId, btn) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // 註冊 Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+
+</body>
+</html>
