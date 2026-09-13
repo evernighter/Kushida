@@ -93,14 +93,19 @@
             margin-top: 5px;
         }
 
-        .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        input[type="text"] { flex: 1; padding: 12px; border-radius: 20px; border: 2px solid var(--sakura-pink); outline: none; }
-        .add-btn { background: var(--gold); color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; }
+        /* 儲存功能雙輸入框樣式 */
+        .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        input[type="text"] { padding: 12px; border-radius: 15px; border: 2px solid var(--sakura-pink); outline: none; background: rgba(255,255,255,0.9); }
+        .add-btn { background: var(--gold); color: white; border: none; padding: 12px; border-radius: 15px; font-weight: bold; width: 100%; box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3); }
+        
         .save-item { 
-            background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 15px; 
-            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
-            border: 1px solid var(--sakura-pink);
+            background: white; padding: 15px; border-radius: 15px; 
+            margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px;
+            border: 1px solid var(--sakura-pink); position: relative;
         }
+        .save-title { font-weight: bold; color: #5D4037; font-size: 15px; padding-right: 25px; }
+        .save-link { font-size: 13px; color: var(--link-color); text-decoration: underline; word-break: break-all; }
+        .delete-btn { position: absolute; right: 12px; top: 12px; border: none; background: none; color: var(--deep-pink); font-size: 20px; }
 
         nav {
             position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.9);
@@ -153,41 +158,28 @@
     </div>
 </div>
 
-<!-- 「夢」ドリーム：天神百貨詳細版 -->
+<!-- 「夢」ドリーム -->
 <div id="day3" class="tab-content">
     <div class="card">
         <h3>「夢」ドリーム：天神之卷</h3>
         <p><span class="time">10:00</span> <a href="https://maps.app.goo.gl/s86kzixdiUs2ZG3ZA" target="_blank">Mina 天神</a>
-        <span class="tag">亮點：九州最大 Uniqlo、GU、Loft、JINS</span></p>
+        <span class="tag">亮點：九州最大 Uniqlo、GU、Loft</span></p>
         <p><span class="time">12:00</span> <a href="https://maps.app.goo.gl/tgGDqdtewvP9hzTJ7" target="_blank">天神車站 (午餐)</a></p>
     </div>
 
     <div class="card">
         <h3>🛍️ 百貨重點攻略</h3>
-        <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank">1. 岩田屋福岡本店 (Iwataya)</a>
-        <span class="tag">重點：精品大牌最齊全、地庫美食 (Depachika) 極強</span></p>
-        
-        <p><a href="https://maps.app.goo.gl/ZkAM254C1nxwvRa46" target="_blank">2. 福岡三越 (Mitsukoshi)</a>
-        <span class="tag">重點：直通巴士站、熟食與美妝專櫃</span></p>
-        
-        <p><a href="https://maps.app.goo.gl/Hpe7bKTc4HXyvAaN8" target="_blank">3. 大丸福岡天神店 (Daimaru)</a>
-        <span class="tag">重點：化妝品區與高級精品品牌</span></p>
-        
-        <p><a href="https://maps.app.goo.gl/z2TkBrtuGEu9Hzav5" target="_blank">4. 福岡 PARCO</a>
-        <span class="tag">重點：動漫愛好者必去（航海王、Disney Store）、年輕流行服飾</span></p>
-        
-        <p><a href="https://maps.app.goo.gl/R54cX2vFwEMookCu9" target="_blank">5. ONE FUKUOKA BLDG. (ワンビル)</a>
-        <span class="tag">重點：天神新地標、多樣化主題餐廳與時尚店鋪</span></p>
-        
-        <p><a href="https://maps.app.goo.gl/N51womKpHd5K414WA" target="_blank">6. VIORO</a>
-        <span class="tag">重點：質感選物店、網美咖啡廳聚集地</span></p>
-
-        <p><a href="https://maps.app.goo.gl/PzvpZUV2RPUMV88A7" target="_blank">7. 天神 LOFT</a>
-        <span class="tag">重點：各種創意文具、雜貨、生活小物</span></p>
+        <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank">1. 岩田屋福岡本店</a> <span class="tag">重點：精品大牌、地庫美食</span></p>
+        <p><a href="https://maps.app.goo.gl/ZkAM254C1nxwvRa46" target="_blank">2. 福岡三越</a> <span class="tag">重點：直通巴士站、熟食</span></p>
+        <p><a href="https://maps.app.goo.gl/Hpe7bKTc4HXyvAaN8" target="_blank">3. 大丸福岡天神店</a> <span class="tag">重點：化妝品區、高級精品</span></p>
+        <p><a href="https://maps.app.goo.gl/z2TkBrtuGEu9Hzav5" target="_blank">4. 福岡 PARCO</a> <span class="tag">重點：動漫愛好者必去、年輕服飾</span></p>
+        <p><a href="https://maps.app.goo.gl/R54cX2vFwEMookCu9" target="_blank">5. ONE FUKUOKA BLDG.</a> <span class="tag">重點：天神新地標、多樣化餐廳</span></p>
+        <p><a href="https://maps.app.goo.gl/N51womKpHd5K414WA" target="_blank">6. VIORO</a> <span class="tag">重點：質感選物店、網美咖啡廳</span></p>
+        <p><a href="https://maps.app.goo.gl/PzvpZUV2RPUMV88A7" target="_blank">7. 天神 LOFT</a> <span class="tag">重點：創意文具、生活小物</span></p>
     </div>
 </div>
 
-<!-- 景點儲存 (地鐵圖與連結辨識) -->
+<!-- 景點儲存 (雙輸入框版本) -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
@@ -195,11 +187,13 @@
             🚇 福岡市地鐵路線圖 (PDF)
         </a>
     </div>
+
     <div class="card">
         <h3>⭐ 庫洛景點卡儲存</h3>
         <div class="input-group">
-            <input type="text" id="spotInput" placeholder="輸入文字或貼上連結...">
-            <button class="add-btn" onclick="addSpot()">封印</button>
+            <input type="text" id="spotName" placeholder="輸入名稱 (例: 咖啡店名稱)">
+            <input type="text" id="spotLink" placeholder="輸入連結 (例: Google Maps 網址)">
+            <button class="add-btn" onclick="addSpot()">封印解除！</button>
         </div>
         <div id="spotList"></div>
     </div>
@@ -213,6 +207,7 @@
 </nav>
 
 <script>
+    // 櫻花特效
     const container = document.getElementById('sakura-container');
     function createPetal() {
         const petal = document.createElement('div');
@@ -228,6 +223,7 @@
     }
     setInterval(createPetal, 450);
 
+    // 分頁切換
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -236,38 +232,52 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    let spots = JSON.parse(localStorage.getItem('myMagicSpots')) || [];
-    function isUrl(string) { try { return string.startsWith('http'); } catch (_) { return false; } }
+    // 儲存邏輯 (改為物件格式)
+    let spots = JSON.parse(localStorage.getItem('myMagicSpotsObj')) || [];
 
     function renderSpots() {
-        document.getElementById('spotList').innerHTML = spots.map((s, i) => {
-            const displayContent = isUrl(s) 
-                ? `<a href="${s}" target="_blank" style="word-break:break-all;">🔗 點擊開啟連結</a>` 
-                : `<span>🌸 ${s}</span>`;
-            return `
-                <div class="save-item">
-                    ${displayContent}
-                    <button style="border:none; background:none; color:var(--deep-pink); font-size:18px;" onclick="deleteSpot(${i})">×</button>
-                </div>
-            `;
-        }).join('');
+        const list = document.getElementById('spotList');
+        list.innerHTML = spots.map((s, i) => `
+            <div class="save-item">
+                <div class="save-title">🌸 ${s.name}</div>
+                ${s.link ? `<a class="save-link" href="${s.link}" target="_blank">🔗 點擊開啟地圖/連結</a>` : ''}
+                <button class="delete-btn" onclick="deleteSpot(${i})">×</button>
+            </div>
+        `).reverse().join(''); // 讓最新的顯示在最上面
     }
 
     function addSpot() {
-        const input = document.getElementById('spotInput');
-        if (input.value.trim()) {
-            spots.push(input.value.trim());
-            localStorage.setItem('myMagicSpots', JSON.stringify(spots));
-            input.value = ''; renderSpots();
+        const nameInput = document.getElementById('spotName');
+        const linkInput = document.getElementById('spotLink');
+        
+        if (nameInput.value.trim()) {
+            const newSpot = {
+                name: nameInput.value.trim(),
+                link: linkInput.value.trim()
+            };
+            spots.push(newSpot);
+            localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
+            nameInput.value = '';
+            linkInput.value = '';
+            renderSpots();
+        } else {
+            alert("請至少輸入名稱喔！");
         }
     }
+
     function deleteSpot(i) {
-        spots.splice(i, 1); localStorage.setItem('myMagicSpots', JSON.stringify(spots));
+        // 因為 render 時 reverse 了，所以索引要處理
+        const actualIndex = spots.length - 1 - i;
+        spots.splice(actualIndex, 1);
+        localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
         renderSpots();
     }
+
     renderSpots();
 
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
 </script>
 
 </body>
