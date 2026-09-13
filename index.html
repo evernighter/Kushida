@@ -83,6 +83,7 @@
         
         .time { font-weight: bold; color: var(--deep-pink); margin-bottom: 4px; display: inline-block; }
         .tag { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; font-style: italic; }
+        .floor { color: var(--gold); font-weight: bold; font-size: 12px; margin-top: 8px; }
         
         a { color: var(--link-color); text-decoration: none; border-bottom: 1px dashed var(--link-color); }
         
@@ -93,10 +94,9 @@
             margin-top: 5px;
         }
 
-        /* 儲存功能雙輸入框樣式 */
         .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
         input[type="text"] { padding: 12px; border-radius: 15px; border: 2px solid var(--sakura-pink); outline: none; background: rgba(255,255,255,0.9); }
-        .add-btn { background: var(--gold); color: white; border: none; padding: 12px; border-radius: 15px; font-weight: bold; width: 100%; box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3); }
+        .add-btn { background: var(--gold); color: white; border: none; padding: 12px; border-radius: 15px; font-weight: bold; width: 100%; }
         
         .save-item { 
             background: white; padding: 15px; border-radius: 15px; 
@@ -134,7 +134,29 @@
     <div class="card">
         <h3>「鏡」ミラー：起程之卷</h3>
         <p><span class="time">15:00</span> <a href="https://maps.app.goo.gl/6DjSAa92NxMzPEWp6" target="_blank">Check in 櫛田神社前站 5號出口</a></p>
+    </div>
+
+    <div class="card">
+        <h3>🛍️ 博多運河城重點攻略</h3>
         <p><span class="time">16:30</span> <a href="https://maps.app.goo.gl/xVriayKZJCkH7AAu5" target="_blank">博多運河城 (Canal City)</a></p>
+        
+        <span class="floor">B1F 角色與藥妝區：</span>
+        <span class="tag">• Sanrio Gallery 博多店</span>
+        <span class="tag">• 松本清 Cosmetics & Beauty</span>
+        <span class="tag">• 扭蛋百貨 (Gashapon)</span>
+        <span class="tag">• JUMP SHOP (動漫角色商店)</span>
+
+        <span class="floor">北側 3F：</span>
+        <span class="tag">• MUJI 無印良品</span>
+
+        <span class="floor">東館 時尚生活區：</span>
+        <span class="tag">• LOWYA 家具室內設計</span>
+        <span class="tag">• GLOBAL WORK / LAKOLE</span>
+        <span class="tag">• coca 服飾</span>
+        <span class="tag">• 3COINS+plus</span>
+    </div>
+
+    <div class="card">
         <p><span class="time">21:00</span> <a href="https://maps.app.goo.gl/8KLrFR66US8WFieN9" target="_blank">Welcia 藥妝 (深夜營業)</a></p>
         <p><span class="time">22:00</span> <a href="https://maps.app.goo.gl/mfTbD3nT6PxpWcse6" target="_blank">MaxValu 超市 (深夜營業)</a></p>
     </div>
@@ -166,7 +188,6 @@
         <span class="tag">亮點：九州最大 Uniqlo、GU、Loft</span></p>
         <p><span class="time">12:00</span> <a href="https://maps.app.goo.gl/tgGDqdtewvP9hzTJ7" target="_blank">天神車站 (午餐)</a></p>
     </div>
-
     <div class="card">
         <h3>🛍️ 百貨重點攻略</h3>
         <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank">1. 岩田屋福岡本店</a> <span class="tag">重點：精品大牌、地庫美食</span></p>
@@ -179,7 +200,7 @@
     </div>
 </div>
 
-<!-- 景點儲存 (雙輸入框版本) -->
+<!-- 景點儲存 (雙欄位版) -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
@@ -187,12 +208,11 @@
             🚇 福岡市地鐵路線圖 (PDF)
         </a>
     </div>
-
     <div class="card">
         <h3>⭐ 庫洛景點卡儲存</h3>
         <div class="input-group">
-            <input type="text" id="spotName" placeholder="輸入名稱 (例: 福岡百貨懶人包)">
-            <input type="text" id="spotLink" placeholder="輸入連結 (例: IG網址)">
+            <input type="text" id="spotName" placeholder="輸入名稱 (例: 咖啡店名稱)">
+            <input type="text" id="spotLink" placeholder="輸入連結 (例: Google Maps 網址)">
             <button class="add-btn" onclick="addSpot()">封印解除！</button>
         </div>
         <div id="spotList"></div>
@@ -232,9 +252,8 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // 儲存邏輯 (改為物件格式)
+    // 儲存邏輯
     let spots = JSON.parse(localStorage.getItem('myMagicSpotsObj')) || [];
-
     function renderSpots() {
         const list = document.getElementById('spotList');
         list.innerHTML = spots.map((s, i) => `
@@ -243,36 +262,23 @@
                 ${s.link ? `<a class="save-link" href="${s.link}" target="_blank">🔗 點擊開啟地圖/連結</a>` : ''}
                 <button class="delete-btn" onclick="deleteSpot(${i})">×</button>
             </div>
-        `).reverse().join(''); // 讓最新的顯示在最上面
+        `).reverse().join('');
     }
-
     function addSpot() {
         const nameInput = document.getElementById('spotName');
         const linkInput = document.getElementById('spotLink');
-        
         if (nameInput.value.trim()) {
-            const newSpot = {
-                name: nameInput.value.trim(),
-                link: linkInput.value.trim()
-            };
-            spots.push(newSpot);
+            spots.push({ name: nameInput.value.trim(), link: linkInput.value.trim() });
             localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
-            nameInput.value = '';
-            linkInput.value = '';
-            renderSpots();
-        } else {
-            alert("請至少輸入名稱喔！");
+            nameInput.value = ''; linkInput.value = ''; renderSpots();
         }
     }
-
     function deleteSpot(i) {
-        // 因為 render 時 reverse 了，所以索引要處理
         const actualIndex = spots.length - 1 - i;
         spots.splice(actualIndex, 1);
         localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
         renderSpots();
     }
-
     renderSpots();
 
     if ('serviceWorker' in navigator) {
