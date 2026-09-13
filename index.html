@@ -17,15 +17,16 @@
             --sakura-pink: #FFB7C5;
             --deep-pink: #FF8DA1;
             --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.8);
+            --glass-white: rgba(255, 255, 255, 0.85);
         }
 
-        body {
+        body, html {
             margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'PingFang TC', sans-serif;
-            background-color: #000; /* 背景深色，讓圖片載入前不刺眼 */
-            color: #4A2C2A;
-            padding-bottom: 80px;
+            background-color: #FFF0F5;
+            color: #5D4037;
             overflow-x: hidden;
         }
 
@@ -55,75 +56,79 @@
         }
 
         header {
-            background: linear-gradient(135deg, rgba(255,183,197,0.9), rgba(255,141,161,0.9));
+            background: linear-gradient(135deg, rgba(255,183,197,0.95), rgba(255,141,161,0.95));
             color: white;
-            padding: 55px 20px 20px;
+            padding: 55px 20px 15px;
             text-align: center;
             border-bottom: 3px solid var(--gold);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        /* 分頁背景共用設定 */
+        /* 分頁背景共用設定 - 優化圖片顯示 */
         .tab-content { 
             display: none; 
-            min-height: calc(100vh - 150px);
+            min-height: 100vh;
             padding: 20px; 
-            animation: magicIn 0.5s ease-out;
+            box-sizing: border-box;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* 讓背景固定，內容滾動 */
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            animation: magicFade 0.6s ease;
+            padding-bottom: 120px;
         }
 
         .tab-content.active { display: block; }
 
-        /* 各別分頁背景圖片 */
-        #day1 { background-image: linear-gradient(rgba(255,240,245,0.3), rgba(255,240,245,0.3)), url('images/day1.png'); }
-        #day2 { background-image: linear-gradient(rgba(255,240,245,0.3), rgba(255,240,245,0.3)), url('images/day2.png'); }
-        #day3 { background-image: linear-gradient(rgba(255,240,245,0.3), rgba(255,240,245,0.3)), url('images/day3.png'); }
-        #save { background-image: linear-gradient(rgba(255,240,245,0.3), rgba(255,240,245,0.3)), url('images/save.png'); }
+        /* 指定背景圖片路徑（全部都在 icons/ 目錄下） */
+        #day1 { background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('icons/day1.png'); }
+        #day2 { background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('icons/day2.png'); }
+        #day3 { background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('icons/day3.png'); }
+        #save { background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('icons/save.png'); }
 
-        @keyframes magicIn {
-            from { opacity: 0; transform: scale(1.05); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes magicFade {
+            from { opacity: 0; filter: brightness(1.2); }
+            to { opacity: 1; filter: brightness(1); }
         }
 
         /* 內容卡片 - 玻璃擬態 */
         .card {
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 18px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 32px rgba(255, 183, 197, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: var(--glass-white);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(255, 141, 161, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .card h4 { margin: 0 0 5px; color: var(--deep-pink); font-size: 18px; }
+        .card h3 { margin-top: 0; color: var(--deep-pink); border-bottom: 2px solid var(--sakura-pink); display: inline-block; padding-bottom: 5px; }
 
-        /* 景點儲存樣式 */
-        .input-group { display: flex; gap: 8px; margin-bottom: 20px; }
+        /* 景點儲存功能樣式 */
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
         input[type="text"] {
-            flex: 1; padding: 12px; border-radius: 20px; border: 2px solid var(--sakura-pink); outline: none;
-            background: rgba(255, 255, 255, 0.9);
+            flex: 1; padding: 12px 15px; border-radius: 25px; border: 2px solid var(--sakura-pink); 
+            background: white; outline: none; font-size: 16px;
         }
         .add-btn { 
             background: var(--gold); color: white; border: none; padding: 10px 20px; 
-            border-radius: 20px; font-weight: bold; 
+            border-radius: 25px; font-weight: bold; font-size: 14px;
         }
 
         .save-item {
-            background: var(--glass);
-            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(4px);
+            border: 1px solid var(--sakura-pink);
         }
 
         /* 底部導航列 */
@@ -133,16 +138,17 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0 calc(env(safe-area-inset-bottom) + 10px);
+            padding: 10px 0 calc(env(safe-area-inset-bottom) + 15px);
             border-top: 2px solid var(--sakura-pink);
             z-index: 1000;
         }
 
-        nav button { background: none; border: none; color: #bca0a5; font-size: 11px; }
-        nav button.active { color: var(--deep-pink); font-weight: bold; }
-        nav button .icon { font-size: 22px; display: block; margin-bottom: 2px; }
+        nav button { background: none; border: none; color: #d2a6b0; font-size: 11px; transition: 0.3s; }
+        nav button.active { color: var(--deep-pink); transform: scale(1.1); font-weight: bold; }
+        nav button .icon { font-size: 24px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -150,42 +156,44 @@
 <div id="sakura-container"></div>
 
 <header>
-    <h1 style="margin:0; font-size: 22px; letter-spacing: 2px;">✨ 封印解除 ✨</h1>
+    <h1 style="margin:0; font-size: 22px; letter-spacing: 3px; font-weight: bold;">✨ 封印解除 ✨</h1>
 </header>
 
 <!-- 第一天 -->
 <div id="day1" class="tab-content active">
     <div class="card">
-        <h4>第一天：起程之卷</h4>
-        <p>🕒 10:00 | 抵達目的地</p>
-        <p>🕒 14:00 | 魔法景點探索</p>
+        <h3>第一天：起程之卷</h3>
+        <p>🌸 10:00 | 抵達目的地</p>
+        <p>🌸 12:30 | 魔法午餐預約</p>
+        <p>🌸 15:00 | 景點探索開始</p>
     </div>
-    <!-- 更多卡片... -->
 </div>
 
 <!-- 第二天 -->
 <div id="day2" class="tab-content">
     <div class="card">
-        <h4>第二天：冒險之卷</h4>
-        <p>🕒 09:00 | 森林步道漫步</p>
+        <h3>第二天：冒險之卷</h3>
+        <p>🌸 09:30 | 早晨的魔法散步</p>
+        <p>🌸 14:00 | 隱藏景點收集</p>
     </div>
 </div>
 
 <!-- 第三天 -->
 <div id="day3" class="tab-content">
     <div class="card">
-        <h4>第三天：歸還之卷</h4>
-        <p>🕒 16:00 | 帶著滿滿回憶歸家</p>
+        <h3>第三天：歸還之卷</h3>
+        <p>🌸 11:00 | 最後的禮物挑選</p>
+        <p>🌸 16:30 | 準備返回原本的世界</p>
     </div>
 </div>
 
 <!-- 景點儲存 -->
 <div id="save" class="tab-content">
     <div class="card">
-        <h4>⭐ 想要捕捉的景點</h4>
+        <h3>⭐ 庫洛景點卡儲存</h3>
         <div class="input-group">
-            <input type="text" id="spotInput" placeholder="輸入景點...">
-            <button class="add-btn" onclick="addSpot()">封印</button>
+            <input type="text" id="spotInput" placeholder="輸入想封印的景點...">
+            <button class="add-btn" onclick="addSpot()">封印!</button>
         </div>
         <div id="spotList"></div>
     </div>
@@ -199,43 +207,56 @@
 </nav>
 
 <script>
+    // 分頁切換
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
-        window.scrollTo(0,0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // 儲存邏輯
-    let spots = JSON.parse(localStorage.getItem('mySpots')) || [];
+    // 景點儲存邏輯 (LocalStorage)
+    let spots = JSON.parse(localStorage.getItem('myMagicSpots')) || [];
     function renderSpots() {
         document.getElementById('spotList').innerHTML = spots.map((s, i) => `
             <div class="save-item">
                 <span>🌸 ${s}</span>
-                <button style="border:none; background:none; color:var(--deep-pink);" onclick="deleteSpot(${i})">×</button>
+                <button style="border:none; background:none; color:var(--deep-pink); font-size:18px;" onclick="deleteSpot(${i})">×</button>
             </div>
         `).join('');
     }
     function addSpot() {
-        const val = document.getElementById('spotInput').value;
-        if (val) { spots.push(val); localStorage.setItem('mySpots', JSON.stringify(spots)); renderSpots(); }
+        const input = document.getElementById('spotInput');
+        if (input.value.trim()) {
+            spots.push(input.value.trim());
+            localStorage.setItem('myMagicSpots', JSON.stringify(spots));
+            input.value = '';
+            renderSpots();
+        }
     }
-    function deleteSpot(i) { spots.splice(i,1); localStorage.setItem('mySpots',JSON.stringify(spots)); renderSpots(); }
+    function deleteSpot(i) {
+        spots.splice(i, 1);
+        localStorage.setItem('myMagicSpots', JSON.stringify(spots));
+        renderSpots();
+    }
     renderSpots();
 
-    // 櫻花特效
+    // 櫻花飄落效果
     setInterval(() => {
         const p = document.createElement('div');
         p.className = 'petal';
-        p.style.width = p.style.height = Math.random()*10+10+'px';
+        p.style.width = p.style.height = Math.random()*12+8+'px';
         p.style.left = Math.random()*100+'vw';
-        p.style.animationDuration = Math.random()*3+2+'s';
+        p.style.animationDuration = Math.random()*4+3+'s';
         document.getElementById('sakura-container').appendChild(p);
-        setTimeout(() => p.remove(), 5000);
-    }, 450);
+        setTimeout(() => p.remove(), 6000);
+    }, 500);
 
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+    // 註冊 Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
 </script>
 
 </body>
