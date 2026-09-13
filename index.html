@@ -9,145 +9,203 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="封印解除">
     
-    <!-- 修正圖片路徑 -->
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="manifest" href="manifest.json">
 
     <style>
         :root {
+            /* 更粉紅的配色 */
             --sakura-pink: #FFB7C5;
             --deep-pink: #FF8DA1;
-            --light-pink: #FFF0F5;
+            --soft-pink: #FFE4E1;
+            --bg-pink: #FFF0F5;
             --gold: #D4AF37;
+            --magic-glow: rgba(255, 183, 197, 0.6);
         }
 
         body {
             margin: 0;
             font-family: 'PingFang TC', sans-serif;
-            background-color: var(--light-pink);
-            color: #555;
+            background-color: var(--bg-pink);
+            color: #5D4037;
             padding-bottom: 100px;
+            overflow-x: hidden; /* 防止櫻花飄出螢幕 */
+        }
+
+        /* 櫻花飄落容器 */
+        #sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .petal {
+            position: absolute;
+            background-color: #ffc0cb;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translate(0, -10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(100px, 100vh) rotate(360deg); opacity: 0; }
         }
 
         header {
-            background-color: var(--sakura-pink);
+            background: linear-gradient(135deg, var(--sakura-pink), var(--deep-pink));
             color: white;
-            padding: 50px 20px 20px;
+            padding: 60px 20px 30px;
             text-align: center;
-            border-bottom: 3px solid var(--gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .tab-content { display: none; padding: 20px; animation: fadeIn 0.4s; }
-        .tab-content.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 行程卡片 */
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--sakura-pink);
-            box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 4px 15px var(--magic-glow);
             position: relative;
         }
 
-        /* 景點儲存輸入區 */
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .tab-content { display: none; padding: 25px; animation: magicIn 0.5s ease-out; }
+        .tab-content.active { display: block; }
+
+        @keyframes magicIn {
+            from { opacity: 0; transform: scale(0.95); filter: blur(5px); }
+            to { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        /* 卡片設計 - 加入淡粉色背景 */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--soft-pink);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 183, 197, 0.2);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .card h4 { margin: 0 0 8px; color: var(--deep-pink); }
+
+        /* 景點輸入區 */
         .input-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         input[type="text"] {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: 2px solid var(--sakura-pink);
-            border-radius: 10px;
+            border-radius: 25px;
+            background: white;
             outline: none;
+            color: var(--deep-pink);
         }
 
         button.add-btn {
-            background: var(--sakura-pink);
+            background: var(--gold);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 10px 25px;
+            border-radius: 25px;
             font-weight: bold;
+            box-shadow: 0 3px 8px rgba(212, 175, 55, 0.4);
         }
 
         .save-item {
             background: white;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #eee;
+            border: 1px solid var(--soft-pink);
         }
 
-        .delete-btn { color: #ff8888; border: none; background: none; font-size: 18px; }
-
-        /* 底部導航 */
+        /* 導航列優化 */
         nav {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0 calc(env(safe-area-inset-bottom) + 10px);
-            border-top: 1px solid var(--sakura-pink);
+            padding: 12px 0 calc(env(safe-area-inset-bottom) + 12px);
+            border-top: 2px solid var(--sakura-pink);
+            z-index: 1000;
         }
 
         nav button {
             background: none;
             border: none;
-            color: #aaa;
+            color: #d2a6b0;
             font-size: 11px;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
-        nav button.active { color: var(--deep-pink); transform: scale(1.1); }
-        nav button .icon { font-size: 24px; display: block; margin-bottom: 2px; }
+        nav button.active {
+            color: var(--deep-pink);
+            transform: translateY(-5px);
+        }
+
+        nav button .icon {
+            font-size: 26px;
+            display: block;
+            margin-bottom: 4px;
+            filter: drop-shadow(0 0 5px var(--magic-glow));
+        }
     </style>
 </head>
 <body>
 
+<!-- 櫻花特效容器 -->
+<div id="sakura-container"></div>
+
 <header>
-    <h1 style="margin:0; font-size: 24px;">🌸 封印解除 🌸</h1>
-    <p style="margin:5px 0 0; font-size: 14px; opacity: 0.9;">隱藏著旅遊力量的鑰匙啊...</p>
+    <h1>✨ 封印解除 ✨</h1>
+    <p>— 隱藏著旅遊力量的鑰匙啊 —</p>
 </header>
 
-<!-- 行程分頁 -->
 <div id="day1" class="tab-content active">
     <h3>第一天：起程之卷</h3>
-    <div class="card">🕒 10:00 | 抵達魔法機場</div>
-    <div class="card">🕒 13:00 | 櫻花主題餐廳</div>
-    <div class="card">🕒 15:30 | 景點 A 巡禮</div>
+    <div class="card"><h4>📍 魔法轉運站</h4>🕒 10:00 | 準備出發，展開新冒險</div>
+    <div class="card"><h4>📍 櫻之味午餐</h4>🕒 12:30 | 補充能量的時間</div>
 </div>
 
 <div id="day2" class="tab-content">
     <h3>第二天：冒險之卷</h3>
-    <div class="card">🕒 09:30 | 魔法森林散策</div>
-    <div class="card">🕒 14:00 | 神秘商店購物</div>
+    <div class="card"><h4>📍 幻之景點</h4>🕒 09:00 | 收集旅遊碎片</div>
 </div>
 
 <div id="day3" class="tab-content">
     <h3>第三天：歸還之卷</h3>
-    <div class="card">🕒 11:00 | 最後的紀念品購買</div>
-    <div class="card">🕒 18:00 | 帶著回憶回家</div>
+    <div class="card"><h4>📍 記憶店鋪</h4>🕒 15:00 | 挑選給友人的禮物</div>
 </div>
 
-<!-- 景點儲存分頁 -->
 <div id="save" class="tab-content">
-    <h3>⭐ 想要捕捉的景點</h3>
+    <h3>⭐ 庫洛景點卡</h3>
     <div class="input-group">
-        <input type="text" id="spotInput" placeholder="輸入景點名稱...">
+        <input type="text" id="spotInput" placeholder="想封印哪個景點？">
         <button class="add-btn" onclick="addSpot()">封印!</button>
     </div>
     <div id="spotList"></div>
@@ -155,58 +213,42 @@
 
 <nav>
     <button class="active" onclick="showTab('day1', this)"><span class="icon">🪄</span>Day 1</button>
-    <button onclick="showTab('day2', this)"><span class="icon">✨</span>Day 2</button>
+    <button onclick="showTab('day2', this)"><span class="icon">🌸</span>Day 2</button>
     <button onclick="showTab('day3', this)"><span class="icon">🌟</span>Day 3</button>
     <button onclick="showTab('save', this)"><span class="icon">🎀</span>儲存</button>
 </nav>
 
 <script>
-    // 分頁切換邏輯
+    // 分頁切換
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
-        window.scrollTo(0,0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     // 景點儲存邏輯
-    let spots = JSON.parse(localStorage.getItem('mySpots')) || [];
-
+    let spots = JSON.parse(localStorage.getItem('mySakuraSpots')) || [];
     function renderSpots() {
         const list = document.getElementById('spotList');
         list.innerHTML = spots.map((spot, index) => `
             <div class="save-item">
                 <span>🌸 ${spot}</span>
-                <button class="delete-btn" onclick="deleteSpot(${index})">×</button>
+                <button style="border:none; background:none; color:var(--deep-pink); font-size:20px;" onclick="deleteSpot(${index})">×</button>
             </div>
         `).join('');
     }
-
     function addSpot() {
         const input = document.getElementById('spotInput');
         if (input.value.trim()) {
             spots.push(input.value.trim());
-            localStorage.setItem('mySpots', JSON.stringify(spots));
+            localStorage.setItem('mySakuraSpots', JSON.stringify(spots));
             input.value = '';
             renderSpots();
         }
     }
-
     function deleteSpot(index) {
         spots.splice(index, 1);
-        localStorage.setItem('mySpots', JSON.stringify(spots));
-        renderSpots();
-    }
-
-    // 初始化
-    renderSpots();
-
-    // 註冊 Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
-
-</body>
-</html>
+        localStorage.setItem('mySakuraSpots', JSON.stringify(spots));
+        renderSpots()
