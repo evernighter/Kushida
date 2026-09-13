@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sakura-v4';
+const CACHE_NAME = 'sakura-v7';
 const assets = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (e) => {
