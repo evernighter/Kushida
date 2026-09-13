@@ -251,4 +251,32 @@
     function deleteSpot(index) {
         spots.splice(index, 1);
         localStorage.setItem('mySakuraSpots', JSON.stringify(spots));
-        renderSpots()
+        renderSpots();
+    }
+    renderSpots();
+
+    // 櫻花飄落特效
+    function createPetal() {
+        const container = document.getElementById('sakura-container');
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        
+        const size = Math.random() * 10 + 10 + 'px';
+        petal.style.width = size;
+        petal.style.height = size;
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+        
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), 5000);
+    }
+    setInterval(createPetal, 400);
+
+    // 註冊 SW
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+
+</body>
+</html>
