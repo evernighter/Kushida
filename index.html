@@ -92,10 +92,18 @@
             margin-top: 5px;
         }
 
+        /* 儲存功能樣式優化 */
         .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
         input[type="text"] { flex: 1; padding: 12px; border-radius: 20px; border: 2px solid var(--sakura-pink); outline: none; }
         .add-btn { background: var(--gold); color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; }
-        .save-item { background: white; padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; border: 1px solid var(--sakura-pink); }
+        
+        .save-item { 
+            background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 15px; 
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
+            border: 1px solid var(--sakura-pink); box-shadow: 0 2px 8px rgba(255, 183, 197, 0.2);
+        }
+        .save-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
+        .save-item a { font-weight: bold; color: var(--link-color); }
 
         nav {
             position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.9);
@@ -164,7 +172,7 @@
     </div>
 </div>
 
-<!-- 景點儲存 (地鐵圖) -->
+<!-- 景點儲存 -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
@@ -176,7 +184,7 @@
     <div class="card">
         <h3>⭐ 庫洛景點卡儲存</h3>
         <div class="input-group">
-            <input type="text" id="spotInput" placeholder="想封印哪個景點？">
+            <input type="text" id="spotInput" placeholder="輸入文字或貼上連結...">
             <button class="add-btn" onclick="addSpot()">封印</button>
         </div>
         <div id="spotList"></div>
@@ -191,6 +199,7 @@
 </nav>
 
 <script>
+    // 櫻花產生器
     const container = document.getElementById('sakura-container');
     function createPetal() {
         const petal = document.createElement('div');
@@ -206,6 +215,7 @@
     }
     setInterval(createPetal, 450);
 
+    // 分頁邏輯
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -214,27 +224,44 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
+    // 儲存與連結偵測邏輯
     let spots = JSON.parse(localStorage.getItem('myMagicSpots')) || [];
-    function renderSpots() {
-        document.getElementById('spotList').innerHTML = spots.map((s, i) => `
-            <div class="save-item">
-                <span>🌸 ${s}</span>
-                <button style="border:none; background:none; color:var(--deep-pink);" onclick="deleteSpot(${i})">×</button>
-            </div>
-        `).join('');
+
+    function isUrl(string) {
+        try { return string.startsWith('http'); } catch (_) { return false; }
     }
+
+    function renderSpots() {
+        document.getElementById('spotList').innerHTML = spots.map((s, i) => {
+            const displayContent = isUrl(s) 
+                ? `<a href="${s}" target="_blank">🔗 點擊開啟連結</a>` 
+                : `<span>🌸 ${s}</span>`;
+            
+            return `
+                <div class="save-item">
+                    ${displayContent}
+                    <button style="border:none; background:none; color:var(--deep-pink); font-size:18px;" onclick="deleteSpot(${i})">×</button>
+                </div>
+            `;
+        }).join('');
+    }
+
     function addSpot() {
         const input = document.getElementById('spotInput');
         if (input.value.trim()) {
             spots.push(input.value.trim());
             localStorage.setItem('myMagicSpots', JSON.stringify(spots));
-            input.value = ''; renderSpots();
+            input.value = ''; 
+            renderSpots();
         }
     }
+
     function deleteSpot(i) {
-        spots.splice(i, 1); localStorage.setItem('myMagicSpots', JSON.stringify(spots));
+        spots.splice(i, 1); 
+        localStorage.setItem('myMagicSpots', JSON.stringify(spots));
         renderSpots();
     }
+
     renderSpots();
 
     if ('serviceWorker' in navigator) {
