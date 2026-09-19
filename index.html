@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>封印解除</title>
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="封印解除">
-    
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="manifest" href="manifest.json">
 
@@ -17,7 +15,7 @@
             --sakura-pink: #FFB7C5;
             --deep-pink: #FF8DA1;
             --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.75);
+            --glass: rgba(255, 255, 255, 0.78);
             --link-color: #E91E63;
         }
 
@@ -32,16 +30,15 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9999;
         }
-
         .petal {
             position: absolute; background-color: #ffc0cb;
             border-radius: 150% 0 150% 0; opacity: 0.8;
             pointer-events: none; animation: fall linear infinite;
         }
-
         @keyframes fall {
-            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
-            100% { transform: translateY(100vh) translateX(100px) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(100vh) translateX(80px) rotate(360deg); opacity: 0; }
         }
 
         header {
@@ -50,9 +47,8 @@
             border-bottom: 3px solid var(--gold); backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
         }
-
         header h1 { margin: 0; font-size: 24px; letter-spacing: 2px; }
-        header .subtitle { margin-top: 8px; font-size: 11px; font-weight: 300; opacity: 0.9; line-height: 1.4; }
+        header .subtitle { margin-top: 8px; font-size: 11px; font-weight: 300; opacity: 0.95; line-height: 1.4; }
 
         .tab-content { 
             display: none; min-height: 100vh; padding: 20px; box-sizing: border-box;
@@ -60,7 +56,6 @@
             background-position: right bottom; background-size: contain;
             animation: magicFade 0.6s ease; padding-bottom: 150px;
         }
-
         .tab-content.active { display: block; }
 
         #day1 { background-image: url('icons/day1.png'); }
@@ -76,48 +71,40 @@
             box-shadow: 0 8px 32px rgba(255, 141, 161, 0.1);
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         }
-
         .card h3 { margin: 0 0 12px; color: var(--deep-pink); border-left: 4px solid var(--sakura-pink); padding-left: 10px; font-size: 18px; }
         .card p { margin: 8px 0; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column; }
         
-        .time { font-weight: bold; color: var(--deep-pink); margin-bottom: 4px; display: inline-block; }
-        .tag { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; font-style: italic; }
+        .time { font-weight: bold; color: var(--deep-pink); margin-bottom: 2px; }
+        .tag { font-size: 12px; color: #666; line-height: 1.5; margin-left: 5px; }
+        .floor { color: var(--gold); font-weight: bold; font-size: 12px; margin-top: 8px; }
         
-        /* 修改連結樣式：移除不穩定的 a 標籤，改用按鈕樣式 */
-        .magic-link { 
-            color: var(--link-color); text-decoration: none; 
-            border-bottom: 1px dashed var(--link-color); font-weight: bold;
-            cursor: pointer;
-        }
+        /* 連結改回標準 a 標籤但優化 iOS PWA 跳轉 */
+        a { color: var(--link-color); text-decoration: none; border-bottom: 1px dashed var(--link-color); font-weight: bold; }
 
+        /* 儲存功能樣式 */
         .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-        input[type="text"] { padding: 12px; border-radius: 15px; border: 2px solid var(--sakura-pink); outline: none; background: rgba(255,255,255,0.9); }
-        .add-btn { background: var(--gold); color: white; border: none; padding: 12px; border-radius: 15px; font-weight: bold; width: 100%; }
+        input[type="text"] { padding: 12px; border-radius: 15px; border: 2px solid var(--sakura-pink); outline: none; background: rgba(255,255,255,0.95); font-size: 16px; }
+        .add-btn { background: var(--gold); color: white; border: none; padding: 12px; border-radius: 15px; font-weight: bold; }
         
         .save-item { 
             background: white; padding: 15px; border-radius: 15px; 
             margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px;
             border: 1px solid var(--sakura-pink); position: relative;
         }
-        .save-title { font-weight: bold; color: #5D4037; font-size: 15px; padding-right: 25px; }
-        .save-link-btn { 
-            font-size: 13px; color: white !important; background: var(--deep-pink); 
-            display: inline-block; padding: 8px 12px; border-radius: 10px;
-            text-decoration: none; width: fit-content; margin-top: 5px; font-weight: bold;
-        }
-        .delete-btn { position: absolute; right: 12px; top: 12px; border: none; background: none; color: var(--deep-pink); font-size: 24px; padding: 5px; }
+        .save-title { font-weight: bold; color: #5D4037; font-size: 15px; }
+        .save-link-btn { font-size: 13px; color: var(--link-color); text-decoration: underline; word-break: break-all; margin-top: 5px; }
+        .delete-btn { position: absolute; right: 10px; top: 10px; border: none; background: none; color: var(--deep-pink); font-size: 24px; padding: 5px; }
 
         nav {
-            position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.9);
+            position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             display: flex; justify-content: space-around;
             padding: 10px 0 calc(env(safe-area-inset-bottom) + 15px);
             border-top: 2px solid var(--sakura-pink); z-index: 2000;
         }
-
         nav button { background: none; border: none; color: #d2a6b0; font-size: 11px; }
-        nav button.active { color: var(--deep-pink); font-weight: bold; transform: scale(1.1); }
-        nav button .icon { font-size: 24px; display: block; margin-bottom: 4px; }
+        nav button.active { color: var(--deep-pink); font-weight: bold; transform: scale(1.05); }
+        nav button .icon { font-size: 22px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -129,45 +116,92 @@
     <div class="subtitle">隱藏了黑暗力量的鑰匙啊~在我面前顯示真正的力量~</div>
 </header>
 
+<!-- 「鏡」ミラー -->
 <div id="day1" class="tab-content active">
     <div class="card">
         <h3>「鏡」ミラー：起程之卷</h3>
-        <p><span class="time">15:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/6DjSAa92NxMzPEWp6')">Check in 櫛田神社前站 5號出口</span></p>
-        <p><span class="time">16:30</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/xVriayKZJCkH7AAu5')">博多運河城 (Canal City)</span></p>
-        <p><span class="time">21:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/8KLrFR66US8WFieN9')">Welcia 藥妝</span></p>
-        <p><span class="time">22:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/mfTbD3nT6PxpWcse6')">MaxValu 超市</span></p>
+        <p><span class="time">15:00</span> <a href="https://maps.app.goo.gl/6DjSAa92NxMzPEWp6" target="_blank" rel="noopener">Check in 七隈線 櫛田神社前站 5號出口</a></p>
+    </div>
+
+    <div class="card">
+        <h3>🛍️ 博多運河城重點攻略</h3>
+        <p><span class="time">16:30</span> <a href="https://maps.app.goo.gl/xVriayKZJCkH7AAu5" target="_blank" rel="noopener">博多運河城 (Canal City)</a></p>
+        
+        <div class="floor">B1F</div>
+        <div class="tag">• Sanrio Gallery 博多店</div>
+        <div class="tag">• 松本清 Cosmetics & Beauty</div>
+        <div class="tag">• 扭蛋百貨</div>
+        <div class="tag">• JUMP SHOP</div>
+
+        <div class="floor">北側 3樓</div>
+        <div class="tag">• MUJI 無印良品</div>
+
+        <div class="floor">東館</div>
+        <div class="tag">• LOWYA 家具室內設計品牌</div>
+        <div class="tag">• GLOBAL WORK / LAKOLE</div>
+        <div class="tag">• coca 服飾</div>
+        <div class="tag">• 3COINS+plus</div>
+    </div>
+
+    <div class="card">
+        <p><span class="time">21:00</span> <a href="https://maps.app.goo.gl/8KLrFR66US8WFieN9" target="_blank" rel="noopener">Welcia 藥妝</a></p>
+        <p><span class="time">22:00</span> <a href="https://maps.app.goo.gl/mfTbD3nT6PxpWcse6" target="_blank" rel="noopener">MaxValu 超市</a></p>
     </div>
 </div>
 
+<!-- 「雪」スノウ -->
 <div id="day2" class="tab-content">
     <div class="card">
         <h3>「雪」スノウ：冒險之卷</h3>
-        <p><span class="time">10:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/x4fAKKUn9n2KhpkZ7')">AMU PLAZA 博多</span></p>
-        <p><span class="time">12:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/LdJhJH3MiPdZyUcU9')">筑紫口午餐</span></p>
+        <p><span class="time">10:00</span> <a href="https://maps.app.goo.gl/x4fAKKUn9n2KhpkZ7" target="_blank" rel="noopener">AMU PLAZA博多</a></p>
+        <p><span class="time">12:00</span> <a href="https://maps.app.goo.gl/LdJhJH3MiPdZyUcU9" target="_blank" rel="noopener">博多站筑紫口午餐</a></p>
+        <p><span class="time">14:00</span> <a href="https://maps.app.goo.gl/9MULE8PXyUmShubx8" target="_blank" rel="noopener">AMU EST B1 @cosme STORE</a></p>
+        <p><span class="time">16:00</span> <span><a href="https://maps.app.goo.gl/TjFVNuKuvSSpaKgs7" target="_blank" rel="noopener">KITTE博多</a> ・ <a href="https://maps.app.goo.gl/7kjzJBxCLycZGNzd6" target="_blank" rel="noopener">OIOI 博多丸井</a></span></p>
+        <p style="color:#E91E63; font-weight:bold; border-top:1px solid #eee; padding-top:10px;">§ 買完回飯店放東西再出去吃飯</p>
+    </div>
+
+    <div class="card">
+        <h3>☕ 咖啡廳備選名單</h3>
+        <div class="tag">• <a href="https://maps.app.goo.gl/16YLNdoRa9WnJLaw6" target="_blank" rel="noopener">藍瓶咖啡 福岡天神店</a></div>
+        <div class="tag">• <a href="https://maps.app.goo.gl/PgYBwU5NdxLzA4J97" target="_blank" rel="noopener">FUGLEN FUKUOKA</a></div>
+        <div class="tag">• <a href="https://maps.app.goo.gl/zzEp52Tk46jUoiuo6" target="_blank" rel="noopener">Fuk Coffee</a></div>
+        <div class="tag">• <a href="https://maps.app.goo.gl/87odqfQsioizW13y6" target="_blank" rel="noopener">REC COFFEE 天神南店</a></div>
     </div>
 </div>
 
+<!-- 「夢」ドリーム -->
 <div id="day3" class="tab-content">
     <div class="card">
         <h3>「夢」ドリーム：天神之卷</h3>
-        <p><span class="time">10:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/s86kzixdiUs2ZG3ZA')">Mina 天神</span></p>
+        <p><span class="time">10:00</span> <a href="https://maps.app.goo.gl/s86kzixdiUs2ZG3ZA" target="_blank" rel="noopener">Mina 天神</a></p>
+        <p><span class="time">12:00</span> <a href="https://maps.app.goo.gl/tgGDqdtewvP9hzTJ7" target="_blank" rel="noopener">天神車站午餐</a></p>
+    </div>
+
+    <div class="card">
+        <h3>🛍️ 百貨重點攻略</h3>
+        <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank" rel="noopener">1. 岩田屋福岡本店 (Iwataya)</a><span class="tag">重點：精品大牌、地庫美食</span></p>
+        <p><a href="https://maps.app.goo.gl/ZkAM254C1nxwvRa46" target="_blank" rel="noopener">2. 福岡三越 (Mitsukoshi)</a><span class="tag">重點：直通巴士站、熟食美妝專櫃</span></p>
+        <p><a href="https://maps.app.goo.gl/Hpe7bKTc4HXyvAaN8" target="_blank" rel="noopener">3. 大丸福岡天神店 (Daimaru)</a><span class="tag">重點：化妝品區、高級精品</span></p>
+        <p><a href="https://maps.app.goo.gl/z2TkBrtuGEu9Hzav5" target="_blank" rel="noopener">4. 福岡PARCO</a><span class="tag">重點：動漫(航海王, Disney Store)、流行服飾</span></p>
+        <p><a href="https://maps.app.goo.gl/R54cX2vFwEMookCu9" target="_blank" rel="noopener">5. ONE FUKUOKA BLDG.</a><span class="tag">重點：天神新地標、主題餐廳</span></p>
+        <p><a href="https://maps.app.goo.gl/PzvpZUV2RPUMV88A7" target="_blank" rel="noopener">6. Tenjin LOFT</a><span class="tag">重點：創意文具、雜貨小物</span></p>
+        <p><a href="https://maps.app.goo.gl/N51womKpHd5K414WA" target="_blank" rel="noopener">7. VIORO</a><span class="tag">重點：質感選物店、網美咖啡廳聚集地</span></p>
     </div>
 </div>
 
+<!-- 景點儲存 -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
-        <span class="save-link-btn" onclick="forceOpen('https://subway.city.fukuoka.lg.jp/cha_trad/route/deta/map.pdf')">
-            🚇 福岡市地鐵路線圖 (PDF)
-        </span>
+        <a href="https://subway.city.fukuoka.lg.jp/cha_trad/route/deta/map.pdf" target="_blank" rel="noopener">🚇 福岡市地鐵路線圖 (PDF)</a>
     </div>
 
     <div class="card">
         <h3>⭐ 庫洛景點卡儲存</h3>
         <div class="input-group">
-            <input type="text" id="spotName" placeholder="輸入名稱 (例: 咖啡店名稱)">
-            <input type="text" id="spotLink" placeholder="貼上連結 (例: Google Maps)">
-            <button class="add-btn" onclick="addSpot()">封印解除！</button>
+            <input type="text" id="spotName" placeholder="名稱 (例: 咖啡店)">
+            <input type="text" id="spotLink" placeholder="連結 (例: Google Maps)">
+            <button class="add-btn" onclick="addSpot()">封印解除</button>
         </div>
         <div id="spotList"></div>
     </div>
@@ -175,27 +209,28 @@
 
 <nav>
     <button class="active" onclick="showTab('day1', this)"><span class="icon">🪄</span>「鏡」</button>
-    <button onclick="showTab('day2', this)"><span class="icon">🌸</span>「雪」</button>
-    <button onclick="showTab('day3', this)"><span class="icon">🌟</span>「夢」</button>
+    <button onclick="showTab('day2', this)"><span class="icon">❄️</span>「雪」</button>
+    <button onclick="showTab('day3', this)"><span class="icon">🌙</span>「夢」</button>
     <button onclick="showTab('save', this)"><span class="icon">🎀</span>儲存</button>
 </nav>
 
 <script>
-    // 櫻花特效與分頁切換
+    // 櫻花特效
     const container = document.getElementById('sakura-container');
     function createPetal() {
         const petal = document.createElement('div');
         petal.className = 'petal';
-        const size = Math.random() * 15 + 10 + 'px';
+        const size = Math.random() * 12 + 10 + 'px';
         petal.style.width = size; petal.style.height = size;
         petal.style.left = Math.random() * 100 + 'vw';
         petal.style.backgroundColor = ['#ffc0cb', '#ffb7c5', '#ffe4e1'][Math.floor(Math.random()*3)];
-        petal.style.animationDuration = Math.random() * 3 + 4 + 's';
+        petal.style.animationDuration = Math.random() * 3 + 5 + 's';
         container.appendChild(petal);
         setTimeout(() => petal.remove(), 7000);
     }
-    setInterval(createPetal, 450);
+    setInterval(createPetal, 500);
 
+    // 分頁切換
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -204,42 +239,16 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // --- 核心修正：強制跳出 PWA 的開啟連結邏輯 ---
-    function forceOpen(url) {
-        // 去除網址可能的空白
-        const targetUrl = url.trim();
-        
-        // 建立一個臨時的 a 標籤，並設定 rel="opener"
-        // 這是繞過 iOS Standalone 限制最有效的方法
-        const a = document.createElement('a');
-        a.href = targetUrl;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        
-        // 必須將標籤暫時加入 DOM 才能觸發 iOS 的跳轉識別
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
+    // 儲存邏輯 (修正刪除與索引問題)
     let spots = JSON.parse(localStorage.getItem('myMagicSpotsObj')) || [];
-
     function renderSpots() {
         const list = document.getElementById('spotList');
         list.innerHTML = '';
         const displayData = spots.map((item, index) => ({ ...item, originalIndex: index }));
-        displayData.reverse(); 
-
-        displayData.forEach((s) => {
+        displayData.reverse().forEach((s) => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'save-item';
-            
-            // 這裡也使用 forceOpen 邏輯
-            const linkHtml = s.link ? `
-                <div class="save-link-btn" onclick="forceOpen('${s.link.replace(/'/g, "\\'")}')">
-                    🔗 點擊開啟地圖/連結
-                </div>` : '';
-            
+            const linkHtml = s.link ? `<a class="save-link-btn" href="${s.link.trim()}" target="_blank" rel="noopener">🔗 開啟連結</a>` : '';
             itemDiv.innerHTML = `
                 <div class="save-title">🌸 ${s.name}</div>
                 ${linkHtml}
@@ -250,27 +259,24 @@
     }
 
     function addSpot() {
-        const nameInput = document.getElementById('spotName');
-        const linkInput = document.getElementById('spotLink');
-        if (nameInput.value.trim()) {
-            spots.push({ name: nameInput.value.trim(), link: linkInput.value.trim() });
+        const name = document.getElementById('spotName');
+        const link = document.getElementById('spotLink');
+        if (name.value.trim()) {
+            spots.push({ name: name.value.trim(), link: link.value.trim() });
             localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
-            nameInput.value = ''; linkInput.value = ''; renderSpots();
+            name.value = ''; link.value = ''; renderSpots();
         }
     }
-
     function deleteSpot(index) {
         spots.splice(index, 1);
         localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
         renderSpots();
     }
-
     renderSpots();
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js');
     }
 </script>
-
 </body>
 </html>
