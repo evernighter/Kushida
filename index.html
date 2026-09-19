@@ -105,7 +105,7 @@
         }
         .save-title { font-weight: bold; color: #5D4037; font-size: 15px; padding-right: 25px; }
         .save-link { font-size: 13px; color: var(--link-color); text-decoration: underline; word-break: break-all; }
-        .delete-btn { position: absolute; right: 12px; top: 12px; border: none; background: none; color: var(--deep-pink); font-size: 20px; }
+        .delete-btn { position: absolute; right: 12px; top: 12px; border: none; background: none; color: var(--deep-pink); font-size: 24px; padding: 5px; line-height: 1; }
 
         nav {
             position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.9);
@@ -139,16 +139,13 @@
     <div class="card">
         <h3>🛍️ 博多運河城重點攻略</h3>
         <p><span class="time">16:30</span> <a href="https://maps.app.goo.gl/xVriayKZJCkH7AAu5" target="_blank">博多運河城 (Canal City)</a></p>
-        
         <span class="floor">B1F 角色與藥妝區：</span>
         <span class="tag">• Sanrio Gallery 博多店</span>
         <span class="tag">• 松本清 Cosmetics & Beauty</span>
         <span class="tag">• 扭蛋百貨 (Gashapon)</span>
         <span class="tag">• JUMP SHOP (動漫角色商店)</span>
-
         <span class="floor">北側 3F：</span>
         <span class="tag">• MUJI 無印良品</span>
-
         <span class="floor">東館 時尚生活區：</span>
         <span class="tag">• LOWYA 家具室內設計</span>
         <span class="tag">• GLOBAL WORK / LAKOLE</span>
@@ -190,7 +187,7 @@
     </div>
     <div class="card">
         <h3>🛍️ 百貨重點攻略</h3>
-        <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank">1. 岩田屋福岡本店</a> <span class="tag">重點：精品品牌、特色美食</span></p>
+        <p><a href="https://maps.app.goo.gl/tMWWGvZeVLtwhsbu9" target="_blank">1. 岩田屋福岡本店</a> <span class="tag">重點：精品大牌、地庫美食</span></p>
         <p><a href="https://maps.app.goo.gl/ZkAM254C1nxwvRa46" target="_blank">2. 福岡三越</a> <span class="tag">重點：直通巴士站、熟食</span></p>
         <p><a href="https://maps.app.goo.gl/Hpe7bKTc4HXyvAaN8" target="_blank">3. 大丸福岡天神店</a> <span class="tag">重點：化妝品區、高級精品</span></p>
         <p><a href="https://maps.app.goo.gl/z2TkBrtuGEu9Hzav5" target="_blank">4. 福岡 PARCO</a> <span class="tag">重點：動漫愛好者必去、年輕服飾</span></p>
@@ -200,7 +197,7 @@
     </div>
 </div>
 
-<!-- 景點儲存 (雙欄位版) -->
+<!-- 景點儲存 (修正刪除功能) -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
@@ -252,18 +249,33 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // 儲存邏輯
+    // --- 修正後的儲存與刪除邏輯 ---
     let spots = JSON.parse(localStorage.getItem('myMagicSpotsObj')) || [];
+
     function renderSpots() {
         const list = document.getElementById('spotList');
-        list.innerHTML = spots.map((s, i) => `
-            <div class="save-item">
+        list.innerHTML = ''; // 清空內容
+
+        // 使用原始索引來確保刪除正確的對象
+        // 我們克隆一份陣列來反轉顯示，但按鈕帶的是「原始索引」
+        const displayData = spots.map((item, index) => ({ ...item, originalIndex: index }));
+        displayData.reverse(); 
+
+        displayData.forEach((s) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'save-item';
+            
+            const linkHtml = s.link ? `<a class="save-link" href="${s.link}" target="_blank">🔗 點擊開啟地圖/連結</a>` : '';
+            
+            itemDiv.innerHTML = `
                 <div class="save-title">🌸 ${s.name}</div>
-                ${s.link ? `<a class="save-link" href="${s.link}" target="_blank">🔗 點擊開啟地圖/連結</a>` : ''}
-                <button class="delete-btn" onclick="deleteSpot(${i})">×</button>
-            </div>
-        `).reverse().join('');
+                ${linkHtml}
+                <button class="delete-btn" onclick="deleteSpot(${s.originalIndex})">×</button>
+            `;
+            list.appendChild(itemDiv);
+        });
     }
+
     function addSpot() {
         const nameInput = document.getElementById('spotName');
         const linkInput = document.getElementById('spotLink');
@@ -273,12 +285,14 @@
             nameInput.value = ''; linkInput.value = ''; renderSpots();
         }
     }
-    function deleteSpot(i) {
-        const actualIndex = spots.length - 1 - i;
-        spots.splice(actualIndex, 1);
+
+    function deleteSpot(index) {
+        // 直接刪除原始陣列中的該索引
+        spots.splice(index, 1);
         localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
         renderSpots();
     }
+
     renderSpots();
 
     if ('serviceWorker' in navigator) {
