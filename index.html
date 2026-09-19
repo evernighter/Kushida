@@ -58,7 +58,7 @@
             display: none; min-height: 100vh; padding: 20px; box-sizing: border-box;
             background-repeat: no-repeat; background-attachment: fixed;
             background-position: right bottom; background-size: contain;
-            animation: magicFade 0.5s ease; padding-bottom: 150px;
+            animation: magicFade 0.6s ease; padding-bottom: 150px;
         }
 
         .tab-content.active { display: block; }
@@ -83,13 +83,11 @@
         .time { font-weight: bold; color: var(--deep-pink); margin-bottom: 4px; display: inline-block; }
         .tag { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; font-style: italic; }
         
-        a { color: var(--link-color); text-decoration: none; border-bottom: 1px dashed var(--link-color); }
-        
-        .map-link {
-            display: inline-block; background: var(--deep-pink); color: white !important;
-            padding: 10px 15px; border-radius: 15px; font-weight: bold; font-size: 14px;
-            border: none; text-decoration: none; box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
-            margin-top: 5px;
+        /* 修改連結樣式：移除不穩定的 a 標籤，改用按鈕樣式 */
+        .magic-link { 
+            color: var(--link-color); text-decoration: none; 
+            border-bottom: 1px dashed var(--link-color); font-weight: bold;
+            cursor: pointer;
         }
 
         .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
@@ -102,11 +100,10 @@
             border: 1px solid var(--sakura-pink); position: relative;
         }
         .save-title { font-weight: bold; color: #5D4037; font-size: 15px; padding-right: 25px; }
-        /* 修改連結樣式為按鈕感，增加點擊率 */
         .save-link-btn { 
             font-size: 13px; color: white !important; background: var(--deep-pink); 
             display: inline-block; padding: 8px 12px; border-radius: 10px;
-            text-decoration: none; width: fit-content; margin-top: 5px;
+            text-decoration: none; width: fit-content; margin-top: 5px; font-weight: bold;
         }
         .delete-btn { position: absolute; right: 12px; top: 12px; border: none; background: none; color: var(--deep-pink); font-size: 24px; padding: 5px; }
 
@@ -132,39 +129,37 @@
     <div class="subtitle">隱藏了黑暗力量的鑰匙啊~在我面前顯示真正的力量~</div>
 </header>
 
-<!-- 第一、二、三、天行程保持不變 -->
 <div id="day1" class="tab-content active">
     <div class="card">
         <h3>「鏡」ミラー：起程之卷</h3>
-        <p><span class="time">15:00</span> <a href="https://maps.app.goo.gl/6DjSAa92NxMzPEWp6" target="_blank">Check in 櫛田神社前站 5號出口</a></p>
-        <p><span class="time">16:30</span> <a href="https://maps.app.goo.gl/xVriayKZJCkH7AAu5" target="_blank">博多運河城 (Canal City)</a></p>
-        <p><span class="time">21:00</span> <a href="https://maps.app.goo.gl/8KLrFR66US8WFieN9" target="_blank">Welcia 藥妝</a></p>
-        <p><span class="time">22:00</span> <a href="https://maps.app.goo.gl/mfTbD3nT6PxpWcse6" target="_blank">MaxValu 超市</a></p>
+        <p><span class="time">15:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/6DjSAa92NxMzPEWp6')">Check in 櫛田神社前站 5號出口</span></p>
+        <p><span class="time">16:30</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/xVriayKZJCkH7AAu5')">博多運河城 (Canal City)</span></p>
+        <p><span class="time">21:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/8KLrFR66US8WFieN9')">Welcia 藥妝</span></p>
+        <p><span class="time">22:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/mfTbD3nT6PxpWcse6')">MaxValu 超市</span></p>
     </div>
 </div>
 
 <div id="day2" class="tab-content">
     <div class="card">
         <h3>「雪」スノウ：冒險之卷</h3>
-        <p><span class="time">10:00</span> <a href="https://maps.app.goo.gl/x4fAKKUn9n2KhpkZ7" target="_blank">AMU PLAZA 博多</a></p>
-        <p><span class="time">12:00</span> <a href="https://maps.app.goo.gl/LdJhJH3MiPdZyUcU9" target="_blank">筑紫口午餐</a></p>
+        <p><span class="time">10:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/x4fAKKUn9n2KhpkZ7')">AMU PLAZA 博多</span></p>
+        <p><span class="time">12:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/LdJhJH3MiPdZyUcU9')">筑紫口午餐</span></p>
     </div>
 </div>
 
 <div id="day3" class="tab-content">
     <div class="card">
         <h3>「夢」ドリーム：天神之卷</h3>
-        <p><span class="time">10:00</span> <a href="https://maps.app.goo.gl/s86kzixdiUs2ZG3ZA" target="_blank">Mina 天神</a></p>
+        <p><span class="time">10:00</span> <span class="magic-link" onclick="forceOpen('https://maps.app.goo.gl/s86kzixdiUs2ZG3ZA')">Mina 天神</span></p>
     </div>
 </div>
 
-<!-- 景點儲存 (修正後的版本) -->
 <div id="save" class="tab-content">
     <div class="card">
         <h3>🗺️ 魔法移動地圖</h3>
-        <a href="https://subway.city.fukuoka.lg.jp/cha_trad/route/deta/map.pdf" target="_blank" class="map-link">
+        <span class="save-link-btn" onclick="forceOpen('https://subway.city.fukuoka.lg.jp/cha_trad/route/deta/map.pdf')">
             🚇 福岡市地鐵路線圖 (PDF)
-        </a>
+        </span>
     </div>
 
     <div class="card">
@@ -186,7 +181,7 @@
 </nav>
 
 <script>
-    // 櫻花特效與分頁切換保持不變
+    // 櫻花特效與分頁切換
     const container = document.getElementById('sakura-container');
     function createPetal() {
         const petal = document.createElement('div');
@@ -209,14 +204,29 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // --- 修正後的儲存、刪除與連結開啟邏輯 ---
+    // --- 核心修正：強制跳出 PWA 的開啟連結邏輯 ---
+    function forceOpen(url) {
+        // 去除網址可能的空白
+        const targetUrl = url.trim();
+        
+        // 建立一個臨時的 a 標籤，並設定 rel="opener"
+        // 這是繞過 iOS Standalone 限制最有效的方法
+        const a = document.createElement('a');
+        a.href = targetUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        
+        // 必須將標籤暫時加入 DOM 才能觸發 iOS 的跳轉識別
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
     let spots = JSON.parse(localStorage.getItem('myMagicSpotsObj')) || [];
 
     function renderSpots() {
         const list = document.getElementById('spotList');
         list.innerHTML = '';
-
-        // 建立含原始索引的副本並反轉
         const displayData = spots.map((item, index) => ({ ...item, originalIndex: index }));
         displayData.reverse(); 
 
@@ -224,11 +234,11 @@
             const itemDiv = document.createElement('div');
             itemDiv.className = 'save-item';
             
-            // 使用特別處理的開啟函式避免「不支援」錯誤
+            // 這裡也使用 forceOpen 邏輯
             const linkHtml = s.link ? `
-                <a class="save-link-btn" href="javascript:void(0)" onclick="openExternalLink('${encodeURI(s.link.trim())}')">
+                <div class="save-link-btn" onclick="forceOpen('${s.link.replace(/'/g, "\\'")}')">
                     🔗 點擊開啟地圖/連結
-                </a>` : '';
+                </div>` : '';
             
             itemDiv.innerHTML = `
                 <div class="save-title">🌸 ${s.name}</div>
@@ -239,25 +249,11 @@
         });
     }
 
-    // 強制在系統瀏覽器開啟連結的函式
-    function openExternalLink(url) {
-        // 在 iOS PWA 模式下，window.open(url, '_blank') 最能觸發外部跳轉
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        if (!newWindow) {
-            // 如果被攔截，則嘗試直接跳轉
-            window.location.href = url;
-        }
-    }
-
     function addSpot() {
         const nameInput = document.getElementById('spotName');
         const linkInput = document.getElementById('spotLink');
         if (nameInput.value.trim()) {
-            // 儲存時自動 trim 掉網址多餘空白
-            spots.push({ 
-                name: nameInput.value.trim(), 
-                link: linkInput.value.trim() 
-            });
+            spots.push({ name: nameInput.value.trim(), link: linkInput.value.trim() });
             localStorage.setItem('myMagicSpotsObj', JSON.stringify(spots));
             nameInput.value = ''; linkInput.value = ''; renderSpots();
         }
